@@ -78,4 +78,14 @@ router.post('/chat',middleware,async(req, res)=>{
     }
 })
 
+router.get('/all-users',middleware,async(req, res)=>{
+    try{
+        const users= await User.findAll({where:{id:req.user.id}});
+        return res.json({users});
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+
 module.exports = router;
