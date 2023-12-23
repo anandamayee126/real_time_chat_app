@@ -1,0 +1,30 @@
+h1{
+    margin-left: 50%;
+}
+.you{
+    background-color: rgb(182, 174, 174);
+    margin-left: 200px;
+    padding: 30px;
+    color: white;
+    margin-right: 100px;
+}
+.Vai{
+    margin-left: 200px;
+    background-color: rgb(221, 216, 216);
+    margin-right: 100px;
+    padding: 30px;
+}
+.input{
+    margin-top: 250px;
+    background-color: rgb(38, 38, 108);
+    color: white;
+    padding:30px;
+    /* margin-left: 200px; */
+
+}
+input chat{
+    padding: 40px;
+    margin-left: 200px;
+    width: 500px;
+
+}

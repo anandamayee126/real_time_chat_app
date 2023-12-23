@@ -11,12 +11,10 @@ async function addMessage(e){
     if(sendMsg.data.success){
         const chatbox= document.getElementById("chat-box");
         chatbox.classList.remove("hide");
-        
+         
         const name_input= document.createElement("input");
         const msg_input= document.createElement("input");
         name_input.type="text";
         msg_input.type="text";
-
-        
     }
 }

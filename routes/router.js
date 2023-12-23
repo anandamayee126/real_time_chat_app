@@ -44,6 +44,7 @@ router.post('/login',async(req,res)=>{
         const exist_email= await User.findOne({where: {email:email}});
 
         if(exist_email==null){
+            alert("User not found .... Please signup first")
             res.json({success:false, status:404, message:"User not found .... Please signup first"});
         }
         else{
@@ -70,15 +71,11 @@ router.post('/login',async(req,res)=>{
 
 router.post('/chat',middleware,async(req, res)=>{
     try{
-        const message= req.body.message;
-        console.log("message",message);
-        const newMsg=req.user.createMessage({message});
-        return res.json({success: true, message: newMsg});
+        
     }
     catch(err){
-        console.log(err);
+       
     }
-    
 })
 
 module.exports = router;
