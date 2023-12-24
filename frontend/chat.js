@@ -1,10 +1,10 @@
 const token= localStorage.getItem("token");
 document.addEventListener('DOMContentLoaded',allUsers);
+const joinee= document.getElementById("joined");
 async function allUsers(e){
     e.preventDefault();
     const users= await axios.get('http://localhost:3000/user/all-users',{headers:{Authorization:token}});
     console.log("users",users);
-    const joinee= document.getElementById("joined");
     users.data.users.forEach(element => {
         const p_name= document.createElement("p");
         p_name.textContent=element.name+" joined";
@@ -22,13 +22,13 @@ async function addMessage(e){
     console.log(message);
     const sendMsg= await axios.post('http://localhost:3000/user/chat',{message:message},{headers:{Authorization:token}});
     console.log("Sent message",sendMsg);
-    // if(sendMsg.data.success){
-    //     const chatbox= document.getElementById("chat-box");
-    //     chatbox.classList.remove("hide");
-         
-    //     const name_input= document.createElement("input");
-    //     const msg_input= document.createElement("input");
-    //     name_input.type="text";
-    //     msg_input.type="text";
-    // }
+    console.log(sendMsg.data.message.msg);
+    console.log(sendMsg.data.name);
+
+    if(sendMsg.data.success){
+        const msg_p= document.createElement("p");
+        msg_p.textContent =sendMsg.data.name+" : "+sendMsg.data.message.msg;
+        joinee.appendChild(msg_p);
+
+    }
 }

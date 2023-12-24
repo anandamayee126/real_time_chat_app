@@ -10,6 +10,7 @@ dot_env.config();
 const {Op}= require('sequelize');
 
 var userId=0;
+var userName=null;
 var token=null;
 function tokenCreation(userId)
 {
@@ -51,6 +52,8 @@ router.post('/login',async(req,res)=>{
         else{
             console.log(exist_email);
             userId=exist_email.id;
+            userName=exist_email.name;
+            console.log("existEmail",userName);
             token= tokenCreation(userId);
             bcrypt.compare(password,exist_email.password,(err,result)=>{
                 if(err){
@@ -75,7 +78,7 @@ router.post('/chat',middleware,async(req, res)=>{
         const msg= req.body.message;
         const send= await req.user.createMessage({msg:msg});
         console.log("send",send);
-        res.json({success:true,message:send});        
+        res.json({success:true,message:send,name:userName});        
     }
     catch(err){
         console.log(err);
