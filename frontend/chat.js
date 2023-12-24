@@ -10,6 +10,13 @@ async function allUsers(e){
         p_name.textContent=element.name+" joined";
         joinee.appendChild(p_name);
     });
+    const getMsg= await axios.get('http://localhost:3000/user/all-messages',{headers:{Authorization:token}});
+        console.log("Get messages",getMsg);
+        getMsg.data.messages.forEach((ele)=>{
+            const msg_p= document.createElement("p");
+            msg_p.textContent =ele.user.name+" : "+ele.msg;
+            joinee.appendChild(msg_p);
+        })
     
 }
 
@@ -18,17 +25,10 @@ chat.addEventListener("submit",addMessage);
 
 async function addMessage(e){
     e.preventDefault();
+    window.location="chat.html"
     const message=e.target.chat.value;
     console.log(message);
     const sendMsg= await axios.post('http://localhost:3000/user/chat',{message:message},{headers:{Authorization:token}});
     console.log("Sent message",sendMsg);
-    console.log(sendMsg.data.message.msg);
-    console.log(sendMsg.data.name);
-
-    if(sendMsg.data.success){
-        const msg_p= document.createElement("p");
-        msg_p.textContent =sendMsg.data.name+" : "+sendMsg.data.message.msg;
-        joinee.appendChild(msg_p);
-
-    }
+    
 }

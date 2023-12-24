@@ -78,7 +78,7 @@ router.post('/chat',middleware,async(req, res)=>{
         const msg= req.body.message;
         const send= await req.user.createMessage({msg:msg});
         console.log("send",send);
-        res.json({success:true,message:send,name:userName});        
+        res.json({success:true,message:send});        
     }
     catch(err){
         console.log(err);
@@ -94,6 +94,20 @@ router.get('/all-users',middleware,async(req, res)=>{
         // }
     );
         return res.json({users});
+    }
+    catch(err){
+        console.log(err);
+    }
+})
+
+router.get('/all-messages',middleware,async(req, res)=>{
+    try{
+        const messages= await Message.findAll({
+            include:{
+                model: User
+            }
+        })
+        return res.json({messages});
     }
     catch(err){
         console.log(err);
