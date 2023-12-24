@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const dot_env= require('dotenv');
 const middleware = require('../middleware/auth');
 dot_env.config();
+const {Op}= require('sequelize');
 
 var userId=0;
 var token=null;
@@ -71,16 +72,24 @@ router.post('/login',async(req,res)=>{
 
 router.post('/chat',middleware,async(req, res)=>{
     try{
-        
+        const msg= req.body.message;
+        const send= await req.user.createMessage({msg:msg});
+        console.log("send",send);
+        res.json({success:true,message:send});        
     }
     catch(err){
-       
+        console.log(err);
     }
 })
 
 router.get('/all-users',middleware,async(req, res)=>{
     try{
-        const users= await User.findAll({where:{id:req.user.id}});
+        const users= await User.findAll(
+        //     id:{
+        //         [Op.lte] : req.user.id
+        //     }
+        // }
+    );
         return res.json({users});
     }
     catch(err){

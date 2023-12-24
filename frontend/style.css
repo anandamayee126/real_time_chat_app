@@ -1,5 +1,9 @@
 h1{
-    margin-left: 45%;
+    margin-left: 40%;
+    /* margin: 10px; */
+    /* 
+     */
+     /* background-color: rgb(78, 90, 90); */
 }
 p{
     margin-left: 200px;
@@ -22,6 +26,17 @@ p:nth-of-type(odd){
 }
 .chat{
     padding: 10px;
-    margin-left: 250px;
-    width: 500px;
+    margin-left: 180px;
+    width: 800px;
+}
+.index{
+    background-color: rgb(160, 188, 160);
+}
+
+.login{
+    background-color: rgb(160, 188, 160);
+}
+
+.signup{
+    background-color: rgb(160, 188, 160);
 }
