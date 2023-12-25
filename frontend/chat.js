@@ -18,6 +18,7 @@ async function allUsers(e){
             joinee.appendChild(msg_p);
         })
 
+        localStorage.setItem("Messages",JSON.stringify(getMsg.data.messages));
     // setTimeout(()=>{
     //     allUsers(e);
     // },1000)
@@ -33,10 +34,9 @@ async function addMessage(e){
     const message=e.target.chat.value;
     console.log("..",message);
     const sendMsg= await axios.post('http://localhost:3000/user/chat',{message:message},{headers:{Authorization:token}});
-    console.log("ee");
     console.log("Sent message",sendMsg);
 
-    localStorage.setItem("Message",sendMsg);
+    
     
     
 }
