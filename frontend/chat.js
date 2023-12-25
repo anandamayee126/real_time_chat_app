@@ -17,6 +17,10 @@ async function allUsers(e){
             msg_p.textContent =ele.user.name+" : "+ele.msg;
             joinee.appendChild(msg_p);
         })
+
+    setTimeout(()=>{
+        allUsers();
+    },1000)
     
 }
 
