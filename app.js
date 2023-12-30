@@ -29,6 +29,7 @@ app.use(cors({
     origin: "http://127.0.0.1:5500"
     
 }));
+app.use(express.static('frontend'))
 app.use(express.json());
 app.use('/user',router);
 app.use('/message',message_router);

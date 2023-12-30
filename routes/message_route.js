@@ -27,12 +27,12 @@ msg_route.get('/get-messages/:groupId',middleware,async(req,res)=>{
         const group = await Group.findByPk(id) // req.user.getGroups()
         console.log(group)
         const result = await group.getMessages();
-        const member = await group.getUsers()
+        const member = await group.getUsers({where : {id : req.user.id}})
         if(member.length == 0 ){
             return res.status(401).json({msg :"unauthorized access"})
         }
         
-        return res.json({ success: true, messages: result, member })
+        return res.json({ success: true, messages: result, member , id : member[0].member.id })
     } catch (e) {
         console.log(e)
         return res.status(500).json({ success: false, msg: "Internal server error" })

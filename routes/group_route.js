@@ -69,8 +69,16 @@ group_route.get('/all-users/:groupId',middleware,async(req, res)=>{
 
 group_route.post('/join_group',middleware,async(req, res)=>{
     const groupId= req.body.group_id;
+    // const uId= req.user.id;
     const group= await Group.findByPk(groupId);
     const member= await group.addUser(req.user);
+    // const member= await Member.create({
+    //     userId: req.user.id,
+    //     groupId:groupId,
+    //     admin:true
+    // })
+    console.log("group",group);
+    console.log("member",member);
     return res.json({sucess: true,member: member, group: group});
 })
 
@@ -87,7 +95,18 @@ group_route.get('/suggested_members',middleware,async(req, res)=>{
 
 group_route.post('/remove_user',middleware,async(req,res)=>{
     const userid= req.body.user_id;
-    const remove_user= await User.destroy({where:{id:userid}});
-    return res.json({sucess: true,removed:remove_user});
+    const groupid= req.body.group_id;
+    const group= await Group.findByPk(groupid);
+    const member= await group.getUsers({userid});
+    console.log("abcd",member[0]);
+
+    if(member[0].member.dataValues.admin){
+        const remove_user= await User.destroy({where:{id:userid}});
+        return res.json({sucess: true,removed:remove_user});
+    }
+    else{
+        return res.json({sucess: false});
+    }
+    
 })
 module.exports= group_route;

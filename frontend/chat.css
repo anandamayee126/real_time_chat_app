@@ -1,0 +1,136 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.container{
+    display : flex;
+    flex-direction : row;
+}
+
+#my_groups{
+    min-width: 25vw;    
+    max-height: 80vh;
+    overflow-y:scroll;
+}
+#group_messages{
+    min-width: 74vw;
+    max-width: 75vw;
+    min-height: 60vh;
+    max-height: 60vh;
+    overflow-y:scroll;
+}
+
+.chat_body{
+    background-color: rgb(207, 250, 207);
+}
+
+p{
+    margin-left: 300px;
+    background-color: rgb(188, 247, 213);
+    margin-right: 100px;
+    padding: 10px;
+}
+p:nth-of-type(odd){
+    background-color: rgb(87, 137, 98);
+    color: white;
+}
+
+.hide{
+    display: none;
+}
+ul{
+    font-size:20px;
+    margin-left: 40%;
+}
+#make_group{
+    margin-left: 200px;
+
+}
+#chat{
+    margin-left: 10px;
+    height: 30px;
+    width: 50%
+}
+#send_chat{
+    height:20px;
+    width: 50px;
+    border: 1px solid transparent;
+    border-radius:5px
+}
+#my_groups{
+    margin-left: 20px;
+    font-size: 18px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: rgb(200, 242, 213);
+    padding: 10px;
+    margin-bottom: 10px;
+
+}
+button .chat_btn{
+    /* padding: 10px; */
+    border: 1px solid white;
+    height:20px;
+    width: 50px;
+}
+h4{
+    margin-bottom: 10px;
+}
+.user_of_grp span {
+    margin: 0 10px;
+    font-size: small;
+    color: blue;
+    border-radius: 7px;
+    /* border: 3px solid #9c1a1ade; */
+    height: fit-content;
+
+}
+
+#group_members{
+    margin-left: 30%;
+}
+
+.groups{
+    background-color: rgb(182, 241, 200);
+}
+
+.u-joined {
+    background: darkgrey;
+    padding: 10px;
+    width: 40vw;
+    height: fit-content;
+    font-size: medium;
+    text-align: center;
+
+}
+
+.o-joined {
+    padding: 10px;
+    width: 40vw;
+    height: fit-content;
+    font-size: medium;
+    text-align: center;
+
+}
+
+.u-message {
+    background: rgb(152, 181, 137);
+    padding: 10px;
+    width: 40vw;
+    height: fit-content;
+    font-size: medium;
+    text-align: end;
+
+}
+
+.o-message {
+    padding: 10px;
+    width: 40vw;
+    height: fit-content;
+    font-size: medium;
+}
+
+#groups_h3{
+    margin-left: 20px;
+    padding: 10px;
+}

@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>chat App</title>
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
-    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="chat.css">
 </head>
+
 <body class="chat_body">
     <nav class="chat_nav">
         <ul>CHAT APP
@@ -16,30 +19,45 @@
                 <button type="submit" class="group" id="show_group">Show All the Groups</button> 
         </ul>
     </nav>
-    <div id="my_groups" class="hide"></div>
+
     <!-- <div class="chat_body">
         <div id="joined">
         </div>
     </div> -->
     <div id="create_group" class="hide">
         <form id="create_group_form">
-        Group Name: <input type="text" id="group_name" name="group_name">
-        <input type="submit" value="Create Group">
+            Group Name: <input type="text" id="group_name" name="group_name">
+            <input type="submit" value="Create Group">
         </form>
         <div class="all-joinee hide" id="all-joinee"></div>
     </div>
-
-    <div id="all_groups" class="hide"></div>
+    <div class="container">
+    <div id="my_groups">
+        <!-- <div>demo</div> -->
+    </div>
+    
 
     <!-- <div i="group_messages"></div> -->
-    <div id="group_members" class="hide"></div>
-    <div id="group_messages" class="hide"></div>
+    <div class="groups">
+        <h3 class="hide" id="groups_h3"></h3>
+        <div id="group_members" class="hide"></div>
+        <div id="group_messages">
+            <!-- <div>testing</div> -->
+        </div>
+        <div id="all_groups" class="hide"></div>
 
-    <form class="hide" id="input-text-message">
-        <input type="text" placeholder="type" class="chat" id="chat" name="chat">
-        <input type="submit" value="send">
-    </form>
+        <form id="input-text-message">
+            <input type="text" placeholder="type" class="chat" id="chat" name="chat">
+            <input type="submit" value="send" id="send_chat">
+        </form>
+        <!-- <form action="">
+            <input type="text">
+            <button>submit</button>
+        </form> -->
+    </div>
+</div>
 </body>
 <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
 <script src="chat.js"></script>
+
 </html>
