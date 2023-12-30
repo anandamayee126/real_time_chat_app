@@ -1,3 +1,104 @@
+/* *{
+    margin: 0;
+    padding: 0;
+} */
+
+h1{
+    margin-left: 40%;
+    /* margin: 10px; */
+    /* 
+     */
+     /* background-color: rgb(78, 90, 90); */
+}
+
+p{
+    margin-left: 300px;
+    background-color: rgb(188, 247, 213);
+    margin-right: 100px;
+    padding: 10px;
+}
+p:nth-of-type(odd){
+    background-color: rgb(87, 137, 98);
+    color: white;
+}
+.render_group{
+    font-size: 8px;
+    margin-left:3px;
+}
+#my_groups{
+    background-color: rgb(222, 246, 227);
+    margin-right: 80%;
+    padding: 0.5px;
+
+}
+.input{
+    /* margin-top: 250px; */
+    margin-top: 30px;
+    background-color: rgb(9, 60, 41);
+    color: white;
+    padding:30px;
+    /* margin-left: 200px; */
+}
+.chat{
+    padding: 10px;
+    margin-left: 180px;
+    width: 800px;
+}
+.index{
+    background-color: rgb(160, 188, 160);
+}
+.login{
+    background-color: rgb(160, 188, 160);
+}
+.signup{
+    background-color: rgb(160, 188, 160);
+}
+.chat_body{
+    min-height: 60vh;
+    max-height: 65vh;
+    overflow-y: scroll;
+    background-color: rgb(198, 244, 207);
+}
+
 .hide{
-    visibility: hidden;
+    display: none;
+}
+
+/* .group{
+    padding: 5px;
+    background-color: rgb(151, 225, 151);
+    color: black;
+    width: 100px;
+    height: 30px;
+    border: 1px solid grey;
+    border-radius:2px;
+} */
+
+ul{
+    font-size:20px;
+    margin-left: 40%;
+}
+#make_group{
+    margin-left: 200px;
+
+}
+.createGroup{
+    background-color: rgb(194, 244, 198);
+}
+
+.user_of_grp{
+    margin-right: 50%;
+}
+.user_of_grp span {
+    margin: 0 10px;
+    font-size: small;
+    color: blue;
+    border-radius: 7px;
+    /* border: 3px solid #9c1a1ade; */
+    height: fit-content;
+
+}
+.btn{
+    color:red;
+    font-size:12px;
 }

@@ -11,6 +11,9 @@ const message_router= require('./routes/message_route');
 const group_router= require('./routes/group_route');
 
 
+// User.hasMany(Message);
+// Message.belongsTo(User);
+
 User.belongsToMany(Group , {through : Member})
 Group.belongsToMany( User, {through : Member})
 
@@ -32,7 +35,7 @@ app.use('/message',message_router);
 app.use('/group',group_router);
 
 
-Sequelize.sync({force:true}).then(() => {
+Sequelize.sync().then(() => {
     app.listen(3000);
 }).catch(err => {
     console.log(err);

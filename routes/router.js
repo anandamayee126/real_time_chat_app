@@ -2,6 +2,8 @@ const express= require('express');
 const router= express.Router();
 const User= require('../models/user');
 const Message= require('../models/message');
+const Member= require('../models/member');
+const Group= require('../models/group');
 const jwt= require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const dot_env= require('dotenv');
@@ -71,6 +73,11 @@ router.post('/login',async(req,res)=>{
     catch(e){
         console.log(e);
     }
+})
+
+router.get('/showId',async(req,res)=>{
+    return res.json({userId});
+     
 })
 
 // router.post('/chat',middleware,async(req, res)=>{

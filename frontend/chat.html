@@ -4,39 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>chat App</title>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <h2>Chat App</h2>
-    <div class="display">
-        <div class="groups">
-            <div class="create-group">
-                <button id="create-grp">create group</button>
-                <div class="new-group hide">
-                    <form id="create-new-group">
-                        <label for="name">Create a new group</label>
-                        <input type="text" name="name" id="name" required>
-                        <button type="submit">New Group</button>
-                    </form>
-                </div>
-            </div>
-            <div class="show-groups">
-                
-            </div>
-   
+<body class="chat_body">
+    <nav class="chat_nav">
+        <ul>CHAT APP
+                <button type="submit" class="group" id="make_group">Make a Group</button>
+                <!-- <button type="submit" class="group" id="chat_group">Chat in a Group</button> -->
+                <button type="submit" class="group" id="show_group">Show All the Groups</button> 
+        </ul>
+    </nav>
+    <div id="my_groups" class="hide"></div>
+    <!-- <div class="chat_body">
+        <div id="joined">
         </div>
-        <div class="group-message">
-
-            <div class="messages">
-            </div>
-            <div class="send-messages">
-                <form >
-                    <input type="text" name="message" id="message" placeholder="Type your message here">
-                    <button type="submit">send</button>
-                </form>
-            </div>
-        </div>
+    </div> -->
+    <div id="create_group" class="hide">
+        <form id="create_group_form">
+        Group Name: <input type="text" id="group_name" name="group_name">
+        <input type="submit" value="Create Group">
+        </form>
+        <div class="all-joinee hide" id="all-joinee"></div>
     </div>
+
+    <div id="all_groups" class="hide"></div>
+
+    <!-- <div i="group_messages"></div> -->
+    <div id="group_members" class="hide"></div>
+    <div id="group_messages" class="hide"></div>
+
+    <form class="hide" id="input-text-message">
+        <input type="text" placeholder="type" class="chat" id="chat" name="chat">
+        <input type="submit" value="send">
+    </form>
 </body>
 <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
 <script src="chat.js"></script>
