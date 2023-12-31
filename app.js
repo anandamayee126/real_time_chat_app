@@ -9,7 +9,8 @@ const Group = require('./models/group');
 const Member = require('./models/member');
 const message_router= require('./routes/message_route');
 const group_router= require('./routes/group_route');
-
+const {io} = require("socket.io-client");
+const socket = io("http://localhost:3000")
 
 // User.hasMany(Message);
 // Message.belongsTo(User);

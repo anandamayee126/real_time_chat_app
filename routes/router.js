@@ -75,8 +75,10 @@ router.post('/login',async(req,res)=>{
     }
 })
 
-router.get('/showId',async(req,res)=>{
-    return res.json({userId});
+router.get('/showId',middleware,async(req,res)=>{
+    const userName= await User.findByPk(req.user.id);
+    console.log("efgh",userName.dataValues);
+    return res.json({userId,user:userName.dataValues});
      
 })
 

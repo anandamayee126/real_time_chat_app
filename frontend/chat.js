@@ -5,13 +5,17 @@ let userId=null;
 document.addEventListener('DOMContentLoaded',getData);
 async function getData(e){
     e.preventDefault();
+    const logged_user= await axios.get('http://localhost:3000/user/showId',{headers : {
+        'Authorization':localStorage.getItem('token')
+    }});
+    const user_welcome= document.getElementById('user-welcome');
+    console.log(logged_user);
+    user_welcome.textContent= `Hi ${logged_user.data.user.name} !`
     renderGroup();
-
-
 }
 
 async function renderGroup(){
-    const groups= await axios.get("http://52.91.197.184:3000/group/get-groups",{headers : {
+    const groups= await axios.get("http://localhost:3000/group/get-groups",{headers : {
         'Authorization':localStorage.getItem('token')
     }});
     console.log("groups are: ",groups);
@@ -49,7 +53,7 @@ async function renderGroup(){
                     groupId:grp.id
                 }
                 group=grp;
-                const addMessage= await axios.post('http://52.91.197.184:3000/message/add-message',obj,{headers : {
+                const addMessage= await axios.post('http://localhost:3000/message/add-message',obj,{headers : {
                     'Authorization':localStorage.getItem('token')
                 }})
                 console.log("Messages added: ",addMessage);
@@ -77,12 +81,12 @@ async function renderMessages(group_id){
             mId = final_messages[final_messages.length -1].id
         if(final_users.length>0)
              uId = final_users[final_users.length -1].id
-        const res = await axios.get(`http://52.91.197.184:3000/message/get-messages/${group_id}` , {
+        const res = await axios.get(`http://localhost:3000/message/get-messages/${group_id}` , {
             headers : {
                 'Authorization':localStorage.getItem('token')
             }
         })
-        const res2 = await axios.get(`http://52.91.197.184:3000/group/all-users/${group_id}` ,{
+        const res2 = await axios.get(`http://localhost:3000/group/all-users/${group_id}` ,{
             headers : {
                 'Authorization':localStorage.getItem('token')
             }
@@ -113,7 +117,7 @@ async function renderMessages(group_id){
 }
 
 async function renderUser(group_id){
-    const users= await axios.get(`http://52.91.197.184:3000/group/all-users/${group_id}`,{headers : {
+    const users= await axios.get(`http://localhost:3000/group/all-users/${group_id}`,{headers : {
         'Authorization':localStorage.getItem('token')
     }});
     console.log("users are: ",users);
@@ -136,7 +140,7 @@ async function renderUser(group_id){
             remove_button.textContent="X";
             remove_button.classList.add="btn";
             remove_button.onclick = async() =>{
-                const remove_user= await axios.post('http://52.91.197.184:3000/group/remove_user',{user_id:user.id,group_id:group_id},{headers : {
+                const remove_user= await axios.post('http://localhost:3000/group/remove_user',{user_id:user.id,group_id:group_id},{headers : {
                     'Authorization':localStorage.getItem('token')
                 }})
                 console.log("remove_user",remove_user);
@@ -165,7 +169,7 @@ function showMessage(data , id, users){
         div.textContent = "You: "+ data.msg
     }else{
         div.className = 'o-message'
-        const user = users.find(user => data.memberId == user.member.id)
+        const user = users.find(user => data.memberId == user.member.id)   /// ?????
         div.textContent =  user.name+ ": "+ data.msg
 
     }
@@ -207,7 +211,7 @@ function createGroup(e){
     async function create_Group(e){
         e.preventDefault();
         const name=e.target.group_name.value;
-        const create= await axios.post('http://52.91.197.184:3000/group/create',{name},{
+        const create= await axios.post('http://localhost:3000/group/create',{name},{
             headers : {
                 'Authorization':localStorage.getItem('token')
             }
@@ -219,7 +223,7 @@ function createGroup(e){
         const joinee= document.getElementById('all-joinee');  
         joinee.classList.remove("hide");
 
-        const members= await axios.get('http://52.91.197.184:3000/group/suggested_members',{headers : {
+        const members= await axios.get('http://localhost:3000/group/suggested_members',{headers : {
             'Authorization':localStorage.getItem('token')
         }})
         console.log("suggested_members",members);
@@ -233,7 +237,7 @@ function createGroup(e){
 
             console.log(group_id);
             select_btn.onclick=async()=>{
-                const add_user= await axios.post('http://52.91.197.184:3000/group/join_group',{group_id},{
+                const add_user= await axios.post('http://localhost:3000/group/join_group',{group_id},{
                     headers : {
                         'Authorization':localStorage.getItem('token')
                     }
@@ -253,7 +257,7 @@ function createGroup(e){
 async function showAllGroup(e)
 {
     e.preventDefault();
-    const all_groups = await axios.get(`http://52.91.197.184:3000/group/showAllGroup`,{headers : {
+    const all_groups = await axios.get(`http://localhost:3000/group/showAllGroup`,{headers : {
         'Authorization':localStorage.getItem('token')
     }})
     console.log("All groups are: ",all_groups);
@@ -269,9 +273,9 @@ async function showAllGroup(e)
         add_button.textContent="Join Group";
         add_button.onclick=async(e)=>{
             e.preventDefault();
-            window.location="chat.html";
+            // window.location="chat.html";
             console.log(group.id);
-            const add_grp= await axios.post('http://52.91.197.184:3000/group/join_group',{group_id:group.id},{headers : {
+            const add_grp= await axios.post('http://localhost:3000/group/join_group',{group_id:group.id},{headers : {
                 'Authorization':localStorage.getItem('token')
             }})
 

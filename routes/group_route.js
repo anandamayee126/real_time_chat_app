@@ -98,10 +98,10 @@ group_route.post('/remove_user',middleware,async(req,res)=>{
     const groupid= req.body.group_id;
     const group= await Group.findByPk(groupid);
     const member= await group.getUsers({userid});
-    console.log("abcd",member[0]);
+    console.log("abcd",member[0].member);
 
     if(member[0].member.dataValues.admin){
-        const remove_user= await User.destroy({where:{id:userid}});
+        const remove_user= await Member.destroy({where:{userId:userid,groupId:groupid}});
         return res.json({sucess: true,removed:remove_user});
     }
     else{
