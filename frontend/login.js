@@ -15,7 +15,7 @@ async function checkUser(e){
     }
 
     
-    const login= await axios.post('http://localhost:3000/user/login',user)
+    const login= await axios.post('http://52.91.197.184:3000/user/login',user)
     
     console.log("login",login);
     if(login.data.success===true){

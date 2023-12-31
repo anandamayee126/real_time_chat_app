@@ -14,7 +14,7 @@ function addUser(e){
         name,email,phone,password
     }
 
-    const post= axios.post('http://localhost:3000/user/signup',user).then((response)=>{
+    const post= axios.post('http://52.91.197.184:3000/user/signup',user).then((response)=>{
         console.log(response);
         console.log("hii");
         window.location="login.html";
