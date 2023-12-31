@@ -9,8 +9,11 @@ const Group = require('./models/group');
 const Member = require('./models/member');
 const message_router= require('./routes/message_route');
 const group_router= require('./routes/group_route');
-const {io} = require("socket.io-client");
-const socket = io("http://localhost:3000")
+
+const AWS=require('aws-sdk')
+const multer=require('multer')
+const storage = multer.memoryStorage(); // Store files in memory
+const upload = multer({ storage: storage });
 
 // User.hasMany(Message);
 // Message.belongsTo(User);
@@ -25,20 +28,26 @@ Member.hasMany(Message)
 Message.belongsTo(Member)
 
 
-
-app.use(cors({
-    origin: "http://127.0.0.1:5500"
-    
-}));
+app.use(cors());
 app.use(express.static('frontend'))
 app.use(express.json());
+app.use('/user/filesharing/:token',upload.single('file'),(req,res,next)=>{
+    req.body.token=req.params.token;
+    next()
+  })
 app.use('/user',router);
 app.use('/message',message_router);
 app.use('/group',group_router);
 
-
+const port=3000;
 Sequelize.sync().then(() => {
-    app.listen(3000);
+    const server= app.listen(port, () => console.log(`Server running on port ${port}`))
+    const io = require('socket.io')(server,{
+        cors : {
+            origin : ['http://localhost:3000']
+        }
+    });
+    router(io);
 }).catch(err => {
     console.log(err);
 })

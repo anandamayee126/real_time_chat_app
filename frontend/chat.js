@@ -1,3 +1,5 @@
+import socket from "./socket";
+
 const messages= document.getElementById('group_messages')
 let group=null;
 let userId=null;
@@ -47,6 +49,7 @@ async function renderGroup(){
             input_text.addEventListener('submit',addMessage);
             async function addMessage(e){     // your sendMessage === My addMessage 
                 e.preventDefault();
+                socket.emit
                 const msg= e.target.chat.value;
                 const obj= {
                     message:msg,
