@@ -1,5 +1,13 @@
+const url = 'http://127.0.0.1:5500'
+        const socket = io(url)
+        socket.on('connect', () => {
+            console.log('joingroup server');
+            
+});
+
 const login= document.getElementById('login')
 login.addEventListener('submit', checkUser);
+
 
 
 
@@ -20,6 +28,7 @@ async function checkUser(e){
     console.log("login",login);
     if(login.data.success===true){
         window.location="chat.html"
+        socket.emit("NewUserJoined")
         console.log("login",login);
         localStorage.setItem("token",login.data.token);
     }

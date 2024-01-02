@@ -33,7 +33,8 @@ msg_route.get('/get-messages/:groupId',middleware,async(req,res)=>{
         }
         
         return res.json({ success: true, messages: result, member , id : member[0].member.id })
-    } catch (e) {
+    }
+    catch (e) {
         console.log(e)
         return res.status(500).json({ success: false, msg: "Internal server error" })
     }

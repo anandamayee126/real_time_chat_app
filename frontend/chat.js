@@ -1,4 +1,13 @@
-import socket from "./socket";
+
+// 
+var options = {
+    rememberUpgrade:true,
+    transports: ['websocket'],
+    secure:true, 
+    rejectUnauthorized: false
+}
+var socket = io.connect('http://localhost:3000', options);
+
 
 const messages= document.getElementById('group_messages')
 let group=null;
@@ -8,7 +17,8 @@ document.addEventListener('DOMContentLoaded',getData);
 async function getData(e){
     e.preventDefault();
     const logged_user= await axios.get('http://localhost:3000/user/showId',{headers : {
-        'Authorization':localStorage.getItem('token')
+        'Authorization':localStorage.getItem('token'),
+        "Access-Control-Allow-Origin": "*"
     }});
     const user_welcome= document.getElementById('user-welcome');
     console.log(logged_user);
@@ -21,8 +31,6 @@ async function renderGroup(){
         'Authorization':localStorage.getItem('token')
     }});
     console.log("groups are: ",groups);
-    // userId= groups.data.user_id;
-    // console.log("userId is: ",userId);
     const my_groups= document.getElementById('my_groups');
     my_groups.classList.remove("hide");
     groups.data.groups.forEach((grp)=>{
@@ -49,7 +57,6 @@ async function renderGroup(){
             input_text.addEventListener('submit',addMessage);
             async function addMessage(e){     // your sendMessage === My addMessage 
                 e.preventDefault();
-                socket.emit
                 const msg= e.target.chat.value;
                 const obj= {
                     message:msg,
@@ -60,6 +67,7 @@ async function renderGroup(){
                     'Authorization':localStorage.getItem('token')
                 }})
                 console.log("Messages added: ",addMessage);
+                
                 const group_message= document.getElementById("group_messages");
                 group_message.classList.remove('hide');
                 const div = document.createElement('div')
@@ -67,11 +75,17 @@ async function renderGroup(){
                 div.textContent = "You: "+ addMessage.data.msg
                 group_message.appendChild(div)
                 e.target.chat.value =''
+                socket.emit("NewMessageAdded",addMessage.data.msg);
 
             }
+            // const browse= document.getElementById("browse");
+            // browse.addEventListener("click",browseFiles);
+
+            // async function browseFiles(e){
+                
+            // }
     }})
 }
-
 
 async function renderMessages(group_id){
     try{
@@ -179,22 +193,6 @@ function showMessage(data , id, users){
 
     messages.appendChild(div)
 }
-
-
-// function showUser(user){
-//     console.log(user)
-//     const div = document.createElement('div')
-//     div.textContent = user.name
-//     div.className='user'
-
-//     if(user.member.admin){
-//         const span = document.createElement('span')
-//         span.textContent = 'admin'
-//         div.appendChild(span)
-//     }
-//     users.appendChild(div)
-// }
-
 const token= localStorage.getItem("token");
 var group_id=null;
 
@@ -290,6 +288,62 @@ async function showAllGroup(e)
         groups.appendChild(form);
     })
 }
+const closeButton = document.querySelector('.close-button');
+const modal = document.querySelector('.modal');
+closeButton.addEventListener('click', function () {
+    modal.style.display = 'none';
+    document.body.style.overflow = "auto"
+});
+
+document.getElementById('uploading').addEventListener('click',(e)=>{
+    const fileForUpload=document.getElementById('storefile').files[0];
+    if(!fileForUpload) {
+        alert('no file choosen')
+        return;
+    }
+    if(fileForUpload.size>'4000000'){
+        alert('only size upto 3MB can be sent')
+        return;
+    }else{
+        modal.style.display = 'none';
+        document.body.style.overflow = "auto"
+        const formdata=new FormData();
+        formdata.append('file',fileForUpload);
+        const token=localStorage.getItem('token');
+        const grid=JSON.parse(localStorage.getItem('currentG')).id   //problem
+        // formdata.append('token',token)
+        formdata.append('grid',grid)
+        axios.post(`/user/filesharing/${token}`,formdata,
+            {headers: {
+                'Content-Type': 'multipart/form-data', // Important to set the correct content type
+            }})
+            .then(result=>{
+                socket.emit('usermessaged')
+            }).catch(err=>{
+                alert('something went wrong/ features disabled')
+            })
+    }
+})
+document.getElementById('selectfile').addEventListener('click',(e)=>{
+    // window.location.href = "uploadfile.html";
+    
+    modal.style.display = "block";
+    document.body.style.overflow = "hidden";
+    
+
+    e.preventDefault()
+    console.log(e.target.files[0])
+
+    const div=document.createElement('div');
+    div.className='modal-body'
+    div.innerHTML=`<h5>Popover in a modal</h5>
+    <p>This <a href="#" role="button" class="btn btn-secondary popover-test" title="Popover title" data-content="Popover body content is set in this attribute.">button</a> triggers a popover on click.</p>
+    <hr>
+    <h5>Tooltips in a modal</h5>
+    <p><a href="#" class="tooltip-test" title="Tooltip">This link</a> and <a href="#" class="tooltip-test" title="Tooltip">that link</a> have tooltips on hover.</p>`
+    document.body.appendChild(div);
+})
+
 
 
 
