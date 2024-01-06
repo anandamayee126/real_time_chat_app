@@ -44,7 +44,7 @@ ul{
     margin-left: 40%;
 }
 #make_group{
-    margin-left: 200px;
+    margin-left: 465px;
 
 }
 #chat{
@@ -87,7 +87,7 @@ h4{
 }
 
 #group_members{
-    margin-left: 30%;
+    margin-left: 44%;
 }
 
 .groups{
@@ -133,4 +133,26 @@ h4{
 #groups_h3{
     margin-left: 20px;
     padding: 10px;
+}
+
+#add-user{
+    /* display: flex; */
+    left: 116px;
+    position: relative;
+    top: -28px;
+    /* background-color: black; */
+    /* color: rgb(19, 50, 17); */
+    height:22px;
+}
+#other_users{
+    margin-left: 44%;
+  position: relative;
+  top: -322px;
+  left: -297px;
+}
+#group-user{
+    position: relative;
+  left: 121px;
+  top: -27px;
+  height: 21px;
 }

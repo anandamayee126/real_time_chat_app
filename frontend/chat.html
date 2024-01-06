@@ -9,7 +9,12 @@
     
 </head>
 
-<h5 id="user-welcome"></h5>
+<div>
+    <h5 id="user-welcome"></h5>
+    
+
+</div>
+
 <body class="chat_body">
     <nav class="chat_nav">
         <ul>CHAT APP
@@ -39,11 +44,15 @@
     <!-- <div i="group_messages"></div> -->
     <div class="groups">
         <h3 class="hide" id="groups_h3"></h3>
+        <button id="add-user" class="hide">Add User</button>
+        <button id="group-user" class="hide">Group Members</button>
         <div id="group_members" class="hide"></div>
         <div id="group_messages">
             <!-- <div>testing</div> -->
         </div>
         <div id="all_groups" class="hide"></div>
+        <div id="group_users" class="hide"></div>
+        <div id="other_users" class="hide"></div>
         <form id="input-text-message">
             <input type="text" placeholder="type" class="chat" id="chat" name="chat">
             <input type="submit" value="send" id="send_chat">

@@ -21,7 +21,7 @@ async function getData(e){
         "Access-Control-Allow-Origin": "*"
     }});
     const user_welcome= document.getElementById('user-welcome');
-    console.log(logged_user);
+    console.log("abcdfr",logged_user);
     user_welcome.textContent= `Hi ${logged_user.data.user.name} !`
     renderGroup();
 }
@@ -42,14 +42,61 @@ async function renderGroup(){
         chat_btn.classList.add="chat_btn";
         h_name.appendChild(chat_btn);
         my_groups.appendChild(h_name);
+        
         chat_btn.onclick= async()=>{
-            //for old messages
-            
+            console.log("current_group_id",grp.id);
+            const curr_grp= await axios.post('http://localhost:3000/group/curr_grp',{groupId:grp.id},{headers : {
+                'Authorization':localStorage.getItem('token')
+            }});
+            console.log("current Group",curr_grp.data.Current_Group.id);
+            // 
+            const ifAdmin= await axios.get('http://localhost:3000/group/ifAdmin',{headers : {
+                'Authorization':localStorage.getItem('token')
+            }})
+            if(ifAdmin.data.success)
+            {
+                const add_user= document.getElementById('add-user');
+                add_user.classList.remove("hide");
+                add_user.onclick=async()=>{
+                    const getUsers= await axios.post('http://localhost:3000/group/get-users',{groupId:curr_grp.data.Current_Group.id},{headers : {
+                        'Authorization':localStorage.getItem('token')
+                    }})
+                    console.log("Remaining Users are: ",getUsers);
+                    const other_users= document.getElementById('other_users');
+                    other_users.classList.remove("hide");
+                    
+                    getUsers.data.remaining_users.forEach((user)=>{
+                        const p_name= document.createElement('p');
+                        p_name.textContent= user.name+"   ";
+                        const add_user= document.createElement('button');
+                        add_user.textContent="Add";
+                        add_user.onclick= async()=>{
+                            const obj={
+                                groupId:curr_grp.data.Current_Group.id,
+                                userId: user.id
+                            }
+                            console.log("obj",obj);
+                            const add= await axios.post('http://localhost:3000/group/add_user',obj,{headers : {
+                                'Authorization':localStorage.getItem('token')
+                            }});
+                            if(add.data.success){
+                                window.location="chat.html";
+                            }
+                        }
+                        p_name.appendChild(add_user);
+                        other_users.appendChild(p_name);
+                    })
+                }
+            }
+            console.log("ifdmin",ifAdmin);
             const group_name= document.getElementById("groups_h3");
             group_name.classList.remove("hide");
             group_name.textContent="Group "+grp.name;
-            // group_name.addEventListener("click",showMember);/*renderUser(grp.id,userId); I need to include this in showMember function*/
-            renderUser(grp.id,userId)
+            const group_member= document.getElementById('group-user');
+            group_member.classList.remove('hide');
+            group_member.onclick=() =>{
+                renderUser(grp.id,userId)
+            }
             renderMessages(grp.id);
             //for the new msg
             const input_text= document.getElementById("input-text-message");
@@ -141,7 +188,7 @@ async function renderUser(group_id){
     const group_members= document.getElementById("group_members");
     group_members.classList.remove("hide");
 
-    users.data.forEach((user) => {
+    users.data.forEach(async(user) => {
         console.log("user is",user);
         const p = document.createElement('p')
         p.textContent = user.name+"   "
@@ -153,22 +200,24 @@ async function renderUser(group_id){
             
         }
         else{
-            const remove_button = document.createElement('button');
-            remove_button.textContent="X";
-            remove_button.classList.add="btn";
-            remove_button.onclick = async() =>{
-                const remove_user= await axios.post('http://localhost:3000/group/remove_user',{user_id:user.id,group_id:group_id},{headers : {
-                    'Authorization':localStorage.getItem('token')
-                }})
-                console.log("remove_user",remove_user);
-                if(remove_user.data.success){
-                    group_members.removeChild(p);
+            const ifAdmin= await axios.get('http://localhost:3000/group/ifAdmin',{headers : {
+                'Authorization':localStorage.getItem('token')
+            }})
+           if(ifAdmin.data.success){
+                const remove_button = document.createElement('button');
+                remove_button.textContent="X";
+                remove_button.classList.add="btn";
+                remove_button.onclick = async() =>{
+                    const remove_user= await axios.post('http://localhost:3000/group/remove_user',{user_id:user.id,group_id:group_id},{headers : {
+                        'Authorization':localStorage.getItem('token')
+                    }})
+                    console.log("remove_user",remove_user);
+                    if(remove_user.data.success){
+                        group_members.removeChild(p);
+                    }
                 }
-                else{
-                    alert("You are not the admin");
-                }
-            }
-            p.appendChild(remove_button);
+                p.appendChild(remove_button);
+           }
         }
         group_members.appendChild(p)
     })
@@ -186,8 +235,13 @@ function showMessage(data , id, users){
         div.textContent = "You: "+ data.msg
     }else{
         div.className = 'o-message'
-        const user = users.find(user => data.memberId == user.member.id)   /// ?????
-        div.textContent =  user.name+ ": "+ data.msg
+        const user = users.find(user => data.memberId == user.member.id)
+        if(user)
+        {
+            div.textContent =  user.name+ ": "+ data.msg
+        }   /// ?????
+        
+        
 
     }
 

@@ -9,6 +9,7 @@ const {Op}= require('sequelize');
 const AWS= require('aws-sdk');
 const dot_env= require('dotenv');
 dot_env.config();
+var curr_group=null;
 
 function uploadToS3(data,fileName)
 {
@@ -65,6 +66,7 @@ group_route.get('/get-groups',middleware,async(req, res)=>{
     }
 })
 
+
 group_route.get('/showAllGroup',middleware,async(req,res)=>{
     const userGroups = await req.user.getGroups({ attributes: ['id'] });
     const groupIds = userGroups.map(group => group.id);
@@ -79,7 +81,20 @@ group_route.get('/showAllGroup',middleware,async(req,res)=>{
     return res.json({success: true, groups:groups});
     // return res.json({member});
     // console.log(member);                         /// ekhane forEach grp chalate hobe
-        
+})
+
+group_route.post('/get-users',middleware,async(req, res)=>{
+    const groupId= req.body.groupId;
+    const member= await Member.findAll({where:{groupId:groupId}});
+    const userIds= member.map(user=>user.userId);
+    console.log("member_group",userIds);
+    const users= await User.findAll({where:{
+        id:{
+            [Op.notIn]:userIds
+        }
+    }})
+    console.log("left-users",users);
+    return res.json({remaining_users:users});
 })
 
 group_route.get('/all-users/:groupId',middleware,async(req, res)=>{
@@ -102,16 +117,30 @@ group_route.get('/all-users/:groupId',middleware,async(req, res)=>{
     }
 })
 
+group_route.post('/curr_grp',middleware,async(req,res) => {
+    const groupId= req.body.groupId;
+    curr_group= await Group.findByPk(groupId);
+    return res.json({Current_Group: curr_group});
+})
+
+group_route.get('/ifAdmin',middleware,async(req,res) => {
+    console.log("Current Group",curr_group);
+    const groupid= curr_group.id;
+    const userid= req.user.id;
+    console.log("abcde",userid);
+    const member= await Member.findOne({where:{groupId:groupid}});
+    console.log("abcde",member);
+    console.log(member.dataValues.userId== userid)
+    if(member.dataValues.userId== userid) {
+        return res.json({success:true});
+    }
+    return res.json({success:false});
+})
+
 group_route.post('/join_group',middleware,async(req, res)=>{
     const groupId= req.body.group_id;
-    // const uId= req.user.id;
     const group= await Group.findByPk(groupId);
     const member= await group.addUser(req.user);
-    // const member= await Member.create({
-    //     userId: req.user.id,
-    //     groupId:groupId,
-    //     admin:true
-    // })
     console.log("group",group);
     console.log("member",member);
     return res.json({sucess: true,member: member, group: group});
@@ -133,15 +162,18 @@ group_route.post('/remove_user',middleware,async(req,res)=>{
     const groupid= req.body.group_id;
     const group= await Group.findByPk(groupid);
     const member= await group.getUsers({userid});
-    console.log("abcd",member[0].member);
-
-    if(member[0].member.dataValues.admin){
-        const remove_user= await Member.destroy({where:{userId:userid,groupId:groupid}});
-        return res.json({sucess: true,removed:remove_user});
-    }
-    else{
-        return res.json({sucess: false});
-    }
+    console.log("remove",member);
+    const remove_user= await Member.destroy({where:{userId:userid,groupId:groupid}});
+    return res.json({sucess: true,removed:remove_user});
     
+})
+group_route.post('/add_user',middleware,async(req,res)=>{
+    const groupId= req.body.groupId;
+    console.log(groupId);
+    const userId= req.body.userId;
+    const group= await Group.findByPk(groupId);
+    const member= await group.addUser(userId);
+    console.log("tfgh",member);
+    return res.json({success:true,data:member})
 })
 module.exports= group_route;

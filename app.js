@@ -11,6 +11,7 @@ const Member = require('./models/member');
 const message_router= require('./routes/message_route');
 const group_router= require('./routes/group_route');
 const cron= require('node-cron');
+const {Op}= require('sequelize');
 
 
 const AWS=require('aws-sdk')
@@ -19,7 +20,6 @@ const multer=require('multer');
 // // const { io } = require('socket.io-client');
 const storage = multer.memoryStorage(); // Store files in memory
 const upload = multer({ storage: storage });
-
 app.use(
     cors()
 );
@@ -44,14 +44,10 @@ app.use('/group',group_router);
 app.use('/user',router);
 
 cron.schedule('0 0 * * *',async ()=>{
-    // console.log('every 5 seconds it will run ',moment().format('DD MM YYYY hh:mm:ss'))
     try{
-      
       const curdate=new Date();
-  
-      const checkdate=new Date(curdate.getFullYear(),curdate.getMonth(),curdate.getDate,0,0,0);
-  
-      await Message.findAll({where:{createdAt:{[Op.lte]:checkdate}}})
+      const checkdate=new Date(curdate.getFullYear(),curdate.getMonth(),curdate.getDate,0,0,0);  // why 0 0 0 at the end
+      Message.findAll({where:{createdAt:{[Op.lte]:checkdate}}})
         .then(allchat=>{
           for (const chat of allchat) {
             ArchievedMessage.create(chat.toJSON());

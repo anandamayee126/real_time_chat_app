@@ -1,9 +1,10 @@
-const url = 'http://127.0.0.1:5500'
-        const socket = io(url)
-        socket.on('connect', () => {
-            console.log('joingroup server');
-            
-});
+var options = {
+    rememberUpgrade:true,
+    transports: ['websocket'],
+    secure:true, 
+    rejectUnauthorized: false
+}
+var socket = io.connect('http://localhost:3000', options);
 
 const login= document.getElementById('login')
 login.addEventListener('submit', checkUser);
