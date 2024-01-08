@@ -7,7 +7,7 @@ var options = {
     rejectUnauthorized: false
 }
 var socket = io.connect('http://localhost:3000', options);
-
+let room=null;
 
 const messages= document.getElementById('group_messages')
 let group=null;
@@ -49,7 +49,12 @@ async function renderGroup(){
                 'Authorization':localStorage.getItem('token')
             }});
             console.log("current Group",curr_grp.data.Current_Group.id);
-            // 
+            room=curr_grp.data.Current_Group.id;
+            socket.emit('join-room' , room , ()=>
+            {
+                console.log('room joined')
+            })
+            console.log("current room: ",room);
             const ifAdmin= await axios.get('http://localhost:3000/group/ifAdmin',{headers : {
                 'Authorization':localStorage.getItem('token')
             }})
@@ -57,6 +62,12 @@ async function renderGroup(){
             {
                 const add_user= document.getElementById('add-user');
                 add_user.classList.remove("hide");
+                // const close= document.getElementById('close');
+                // close.classList.remove("hide");
+                // close.onclick=() =>{
+                //     // add_user.classList.add("hide");
+
+                // }
                 add_user.onclick=async()=>{
                     const getUsers= await axios.post('http://localhost:3000/group/get-users',{groupId:curr_grp.data.Current_Group.id},{headers : {
                         'Authorization':localStorage.getItem('token')
@@ -114,6 +125,7 @@ async function renderGroup(){
                     'Authorization':localStorage.getItem('token')
                 }})
                 console.log("Messages added: ",addMessage);
+
                 
                 const group_message= document.getElementById("group_messages");
                 group_message.classList.remove('hide');
@@ -122,15 +134,15 @@ async function renderGroup(){
                 div.textContent = "You: "+ addMessage.data.msg
                 group_message.appendChild(div)
                 e.target.chat.value =''
-                socket.emit("NewMessageAdded",addMessage.data.msg);
-
+                const newMsg= addMessage.data.msg
+                console.log("room",room)                //working
+                socket.emit('NewMessageAdded',newMsg,room);
+                socket.on("MessageRecieved", newMsg => {
+                    // renderMessages(grp.id);
+                    console.log('before message')
+                    alert(`new meesage added- ${newMsg} in the room ${room}`);
+                })
             }
-            // const browse= document.getElementById("browse");
-            // browse.addEventListener("click",browseFiles);
-
-            // async function browseFiles(e){
-                
-            // }
     }})
 }
 
@@ -162,8 +174,8 @@ async function renderMessages(group_id){
         // document.querySelector('.group-message h2').textContent = group.name
         final_users = [...final_users , ...res2.data]
         final_messages.forEach(message =>{
-            console.log(res.data.id)
-            console.log(final_users)
+            // console.log(res.data.id)
+            // console.log(final_users)
             showMessage(message ,res.data.id , final_users )
         })
         // users.innerHTML = ``
@@ -226,10 +238,10 @@ async function renderUser(group_id){
 
 function showMessage(data , id, users){
     const div = document.createElement('div')
-    console.log(typeof users)
-    console.log(id + " : " + data.memberId)
-    console.log(data.msg)
-    console.log()
+    // console.log(typeof users)
+    // console.log(id + " : " + data.memberId)
+    // console.log(data.msg)
+    // console.log()
     if(id == data.memberId){
         div.className = 'u-message'
         div.textContent = "You: "+ data.msg

@@ -48,8 +48,24 @@ p:nth-of-type(odd){
     background-color: rgb(160, 188, 160);
 }
 .login{
-    background-color: rgb(160, 188, 160);
+    background-color: rgb(139, 150, 188);
 }
+#login{
+    border: 3px solid aliceblue;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+  padding: 48px;
+  margin-right: 70%;
+  position: relative;
+  left: 476px;
+  top: 39px;
+  border-style: outset;
+    /* background-image: url("1.png"); */
+
+}
+
 .signup{
     background-color: rgb(160, 188, 160);
 }
@@ -101,4 +117,7 @@ ul{
 .btn{
     color:red;
     font-size:12px;
+}
+#close{
+
 }

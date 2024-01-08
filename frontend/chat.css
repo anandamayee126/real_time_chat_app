@@ -9,9 +9,8 @@
 }
 
 #my_groups{
-    min-width: 25vw;    
-    max-height: 80vh;
-    overflow-y:scroll;
+    min-width: 22vw;
+  max-height: 83vh;
 }
 #group_messages{
     min-width: 74vw;
@@ -22,17 +21,21 @@
 }
 
 .chat_body{
-    background-color: rgb(207, 250, 207);
+    background-color: rgb(210, 183, 242);
+}
+#all-joinee{
+    position: relative;
+  top: 5px;
 }
 
 p{
     margin-left: 300px;
-    background-color: rgb(188, 247, 213);
+    background-color: rgb(157, 115, 172);
     margin-right: 100px;
     padding: 10px;
 }
 p:nth-of-type(odd){
-    background-color: rgb(87, 137, 98);
+    background-color: rgb(73, 31, 79);
     color: white;
 }
 
@@ -44,8 +47,17 @@ ul{
     margin-left: 40%;
 }
 #make_group{
-    margin-left: 465px;
+    margin-left: 526px;
+  font-size: initial;
+  font-style: oblique;
+  padding: 3px
 
+}
+#show_group{
+    /* margin-left: 526px; */
+    font-size: initial;
+    font-style: oblique;
+    padding: 3px
 }
 #chat{
     margin-left: 10px;
@@ -62,9 +74,9 @@ ul{
     margin-left: 20px;
     font-size: 18px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    background-color: rgb(200, 242, 213);
+    background-color: rgb(177, 126, 224);
     padding: 10px;
-    margin-bottom: 10px;
+    /* margin-bottom: 2px; */
 
 }
 button .chat_btn{
@@ -74,24 +86,31 @@ button .chat_btn{
     width: 50px;
 }
 h4{
-    margin-bottom: 10px;
+    margin-bottom: 17px;
+    
 }
 .user_of_grp span {
     margin: 0 10px;
     font-size: small;
-    color: blue;
+    color: rgb(233, 233, 240);
     border-radius: 7px;
     /* border: 3px solid #9c1a1ade; */
     height: fit-content;
+    position: relative;
+     top: -8px;
 
 }
 
 #group_members{
     margin-left: 44%;
+    /* position: relative; */
+    /* top: -480px; */
+  
+    
 }
 
 .groups{
-    background-color: rgb(182, 241, 200);
+    background-color: rgb(187, 155, 223);
 }
 
 .u-joined {
@@ -114,7 +133,7 @@ h4{
 }
 
 .u-message {
-    background: rgb(152, 181, 137);
+    background: rgb(161, 137, 181);
     padding: 10px;
     width: 40vw;
     height: fit-content;
@@ -147,12 +166,21 @@ h4{
 #other_users{
     margin-left: 44%;
   position: relative;
-  top: -322px;
-  left: -297px;
+  top: -450px;
+  left: -280px;
 }
 #group-user{
     position: relative;
   left: 121px;
   top: -27px;
   height: 21px;
+}
+
+#user-welcome{
+    position: relative;
+  left: 22px;
+  top: 14px;
+  font-size: 19px;
+  font-style: oblique;
+
 }

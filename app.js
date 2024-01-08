@@ -13,6 +13,8 @@ const group_router= require('./routes/group_route');
 const cron= require('node-cron');
 const {Op}= require('sequelize');
 
+// var room=null;
+
 
 const AWS=require('aws-sdk')
 const socket= require('socket.io');
@@ -43,24 +45,33 @@ app.use('/message',message_router);
 app.use('/group',group_router);
 app.use('/user',router);
 
+      const curdate=new Date(); 
+      // const checkdate=new Date(curdate.getFullYear(),curdate.getMonth(),curdate.getDate,0,0,0);  // why 0 0 0 at the end
+      console.log("date is:",curdate);
+      const chats= Message.findAll({where:{createdAt:{[Op.lte]:curdate}}}).then((chat)=>{
+        console.log(chat);
+      }).catch((error)=>{
+        console.log(error);
+      })
+      console.log(chats);
+
+
 cron.schedule('0 0 * * *',async ()=>{
     try{
-      const curdate=new Date();
-      const checkdate=new Date(curdate.getFullYear(),curdate.getMonth(),curdate.getDate,0,0,0);  // why 0 0 0 at the end
-      Message.findAll({where:{createdAt:{[Op.lte]:checkdate}}})
-        .then(allchat=>{
-          for (const chat of allchat) {
-            ArchievedMessage.create(chat.toJSON());
+      console.log("inside cron")
+      const curdate=new Date(); 
+      // const checkdate=new Date(curdate.getFullYear(),curdate.getMonth(),curdate.getDate,0,0,0);  // why 0 0 0 at the end
+      const chats=await Message.findAll({where:{createdAt:{[Op.lt]:curdate}}})
+          for (const chat of chats) {
+            ArchievedMessage.create({msg:chat.dataValues.msg});
             chat.destroy();
           }
-        });
-        console.log('doing clean')
-  
-  
+       
+        console.log('Message table cleaned');
+        // console.log(chats[0].dataValues);
     }catch(err){
       console.log(err)
     }
-  
   },
   {
   timezone:'Asia/Kolkata',
@@ -73,21 +84,24 @@ Sequelize.sync().then(() => {
     server= app.listen(port, () => console.log(`Server running on port ${port}`))
     const io = require('socket.io')(server);
     io.on('connection', (socket) => {
+      socket.on('join-room' , (room,cb)=>{
+        socket.join(room)
+        cb()
+      })
         console.log('Client connected:', socket.id)
-    
-        socket.on("NewMessageAdded",(data)=>{
-            console.log("new message added");
-            io.emit('NewMessageAdded',data)
-        })
-    
-        socket.on("NewUserJoined",()=>{
-            console.log("new user joined");
-            io.emit('NewUserJoined')
-        })
-
-        socket.on("usermessaged",()=>{
-            console.log("user messaged");
-            io.emit("usermessaged")
+        socket.on("NewMessageAdded",(data,room)=>{  //129 
+            console.log("new message added"); 
+            console.log("message is:",data);
+            if(room === '')
+            {
+              socket.broadcast.emit('MessageRecieved',data)
+              // alert(data);
+            }
+            else{
+              socket.to(room).emit(`MessageRecieved`,data)
+              // alert(room);
+            }
+            console.log(data);
         })
     })
 }).catch(err => {
@@ -95,3 +109,12 @@ Sequelize.sync().then(() => {
 })
 
 
+/*
+
+rooms : 
+chat A : click frontend emit 'join-room' , backend on :
+  socket.join(room)
+
+
+
+*/
