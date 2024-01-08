@@ -7,7 +7,7 @@ var options = {
     rejectUnauthorized: false
 }
 var socket = io.connect('http://localhost:3000', options);
-let room=null;
+// let room=null;
 
 const messages= document.getElementById('group_messages')
 let group=null;
@@ -49,12 +49,12 @@ async function renderGroup(){
                 'Authorization':localStorage.getItem('token')
             }});
             console.log("current Group",curr_grp.data.Current_Group.id);
-            room=curr_grp.data.Current_Group.id;
-            socket.emit('join-room' , room , ()=>
-            {
-                console.log('room joined')
-            })
-            console.log("current room: ",room);
+            // room=curr_grp.data.Current_Group.id;
+            // socket.emit('join-room' , room , ()=>
+            // {
+            //     console.log('room joined')
+            // })
+            // console.log("current room: ",room);
             const ifAdmin= await axios.get('http://localhost:3000/group/ifAdmin',{headers : {
                 'Authorization':localStorage.getItem('token')
             }})
@@ -134,14 +134,14 @@ async function renderGroup(){
                 div.textContent = "You: "+ addMessage.data.msg
                 group_message.appendChild(div)
                 e.target.chat.value =''
-                const newMsg= addMessage.data.msg
-                console.log("room",room)                //working
-                socket.emit('NewMessageAdded',newMsg,room);
-                socket.on("MessageRecieved", newMsg => {
-                    // renderMessages(grp.id);
-                    console.log('before message')
-                    alert(`new meesage added- ${newMsg} in the room ${room}`);
-                })
+                // const newMsg= addMessage.data.msg
+                // console.log("room",room)                //working
+                // socket.emit('NewMessageAdded',newMsg,room);
+                // socket.on("MessageRecieved", newMsg => {
+                //     // renderMessages(grp.id);
+                //     console.log('before message')
+                //     alert(`new meesage added- ${newMsg} in the room ${room}`);
+                // })
             }
     }})
 }
