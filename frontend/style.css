@@ -65,7 +65,19 @@ p:nth-of-type(odd){
     /* background-image: url("1.png"); */
 
 }
-
+#my-form{
+    border: 3px solid aliceblue;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+  padding: 48px;
+  margin-right: 70%;
+  position: relative;
+  left: 476px;
+  top: 39px;
+  border-style: outset;
+}
 .signup{
     background-color: rgb(160, 188, 160);
 }
@@ -117,7 +129,4 @@ ul{
 .btn{
     color:red;
     font-size:12px;
-}
-#close{
-
 }

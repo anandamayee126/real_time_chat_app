@@ -5,6 +5,10 @@ const User = require('../models/user');
 const Group = require('../models/group');
 const Member = require('../models/member');
 const middleware= require('../middleware/auth');
+const {uploadToS3} = require('../services/s3Services')
+const multer = require('multer')
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 msg_route.post('/add-message',middleware,async (req, res) => {
     try {
@@ -40,4 +44,25 @@ msg_route.get('/get-messages/:groupId',middleware,async(req,res)=>{
     }
 })
 
+msg_route.post('/uploadFile/:groupId', upload.single('file'),middleware,async(req,res) => {
+   
+    try{
+        const fileName =new Date() + req.file.originalname
+        const mimeType = req.file.mimetype
+        const fileData = req.file.buffer
+        console.log('line 61')
+        const data = await uploadToS3(fileData , fileName)
+        const groupId = req.params.groupId;
+        const group = await Group.findByPk(groupId)
+        const user = await group.getUsers({ where: { id: req.user.id } })
+        const member = user[0].member
+// return res.json(data)
+        const message = await member.createMessage({msg : data.Location , type : mimeType , groupId})
+        return res.json(message)
+    }catch(e){
+        console.log(e)
+        return res.status(500).json({ success: false, msg: "Internal server error" })
+
+    }
+})
 module.exports= msg_route;

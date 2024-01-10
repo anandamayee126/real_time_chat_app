@@ -16,12 +16,7 @@ const {Op}= require('sequelize');
 // var room=null;
 
 
-const AWS=require('aws-sdk')
-// const socket= require('socket.io');
-const multer=require('multer');
-// // const { io } = require('socket.io-client');
-const storage = multer.memoryStorage(); // Store files in memory
-const upload = multer({ storage: storage });
+
 app.use(
     cors()
 );
@@ -35,12 +30,12 @@ Member.hasMany(Message)
 Message.belongsTo(Member)
 
 
-app.use(express.static('frontend'))
+// app.use(express.static('frontend'))
 app.use(express.json());
-app.use('/user/filesharing/:token',upload.single('file'),(req,res,next)=>{
-    req.body.token=req.params.token;
-    next()
-  })
+// app.use('/user/filesharing/:token',upload.single('file'),(req,res,next)=>{
+//     req.body.token=req.params.token;
+//     next()
+//   })
 app.use('/message',message_router);
 app.use('/group',group_router);
 app.use('/user',router);
@@ -60,7 +55,6 @@ cron.schedule('0 0 * * *',async ()=>{
     try{
       console.log("inside cron")
       const curdate=new Date(); 
-      // const checkdate=new Date(curdate.getFullYear(),curdate.getMonth(),curdate.getDate,0,0,0);  // why 0 0 0 at the end
       const chats=await Message.findAll({where:{createdAt:{[Op.lt]:curdate}}})
           for (const chat of chats) {
             ArchievedMessage.create({msg:chat.dataValues.msg});

@@ -1,16 +1,13 @@
-var options = {
-    rememberUpgrade:true,
-    transports: ['websocket'],
-    secure:true, 
-    rejectUnauthorized: false
-}
-var socket = io.connect('http://localhost:3000', options);
+// var options = {
+//     rememberUpgrade:true,
+//     transports: ['websocket'],
+//     secure:true, 
+//     rejectUnauthorized: false
+// }
+// var socket = io.connect('http://localhost:3000', options);
 
 const login= document.getElementById('login')
 login.addEventListener('submit', checkUser);
-
-
-
 
 async function checkUser(e){
     e.preventDefault()
@@ -29,7 +26,7 @@ async function checkUser(e){
     console.log("login",login);
     if(login.data.success===true){
         window.location="chat.html"
-        socket.emit("NewUserJoined")
+        // socket.emit("NewUserJoined")
         console.log("login",login);
         localStorage.setItem("token",login.data.token);
     }

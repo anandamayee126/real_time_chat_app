@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>chat App</title>
     <link rel="stylesheet" href="chat.css">
-   
-    
+
+
 </head>
 
 <div>
     <h5 id="user-welcome"></h5>
-    
+
 
 </div>
 
 <body class="chat_body">
     <nav class="chat_nav">
         <ul>CHAT APP
-                <button type="submit" class="group" id="make_group">Make a Group</button>
-                <!-- <button type="submit" class="group" id="chat_group">Chat in a Group</button> -->
-                <button type="submit" class="group" id="show_group">Show All the Groups</button> 
+            <button type="submit" class="group" id="make_group">Make a Group</button>
+            <!-- <button type="submit" class="group" id="chat_group">Chat in a Group</button> -->
+            <button type="submit" class="group" id="show_group">Show All the Groups</button>
         </ul>
     </nav>
 
@@ -36,46 +37,59 @@
         <div class="all-joinee hide" id="all-joinee"></div>
     </div>
     <div class="container">
-    <div id="my_groups">
-        <!-- <div>demo</div> -->
-    </div>
-    
-
-    <!-- <div i="group_messages"></div> -->
-    <div class="groups">
-        <h3 class="hide" id="groups_h3"></h3>
-        <button id="add-user" class="hide">Add User</button>
-        <button id="close" class="hide">X</button>
-        <button id="group-user" class="hide">Group Members</button>
-        <div id="group_members" class="hide"></div>
-        <div id="group_messages">
-            <!-- <div>testing</div> -->
+        <div id="my_groups">
+            <!-- <div>demo</div> -->
         </div>
-        <div id="all_groups" class="hide"></div>
-        <div id="group_users" class="hide"></div>
-        <div id="other_users" class="hide"></div>
-        <form id="input-text-message">
-            <input type="text" placeholder="type" class="chat" id="chat" name="chat">
+
+
+        <!-- <div i="group_messages"></div> -->
+        <div class="groups">
+            <h3 class="hide" id="groups_h3"></h3>
+            <button id="add-user" class="hide">Add User</button>
+            <button id="close" class="hide">X</button>
+            <button id="group-user" class="hide">Group Members</button>
+            <div id="group_members" class="hide"></div>
+            <div id="group_messages">
+                <!-- <div>testing</div> -->
+            </div>
+            <div id="all_groups" class="hide"></div>
+            <div id="group_users" class="hide"></div>
+            <div id="other_users" class="hide"></div>
+            <!-- <form id="input-text-message"> -->
+            <!-- <input type="text" placeholder="type" class="chat" id="chat" name="chat">
             <input type="submit" value="send" id="send_chat">
         </form>
         <div class="fileupload" id="sendfile" >
-            <label for="selectfile" class="fileupload" id="selectfile"><img src="../images/one.jpg" alt="files"
+            <label for="selectfile" class="fileupload" id="selectfile"><img src="../images" alt="files"
                 title="share files" height="35px"></label>
             <div class="modal">
                 <div class="modal-content">
-                    <span class="close-button">&times;</span>
-                    <input type="file" maxlength="5000000" id="storefile" >
+                    <span class="close-button">&times;</span> -->
+            <!-- <input type="file" maxlength="5000000" id="storefile" >
                     <button id="uploading" class="btn btn-outline-danger mt-4">Send</button>
                 </div>
             </div>
+        </div> -->
+            <label class="switch">
+                <input type="checkbox" id="toggleInput">
+                <span class="slider round"></span>
+            </label>
+            <form id="input-text-message" >
+                <input type="text" name="message" id="chat" placeholder="Type your message here" required
+                    oninvalid="this.setCustomValidity('Enter message')" oninput="setCustomValidity('')">
+                <input type="submit" value="send" id="send_chat">
+            </form>
+            <form id="files" class="hide" enctype="multipart/form-data">
+                <input type="file" name="file" id="file" required>
+                <button type="submit" id="file-send">send</button>
+            </form>
         </div>
     </div>
-</div>
-<script  src="https://cdn.socket.io/4.6.0/socket.io.min.js"
-integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+"
-crossorigin="anonymous"></script>
-<script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
-<script src="chat.js"></script>
+    <!-- <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"
+        integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+"
+        crossorigin="anonymous"></script> -->
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+    <script src="chat.js"></script>
 </body>
 
 </html>

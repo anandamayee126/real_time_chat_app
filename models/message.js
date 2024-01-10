@@ -10,6 +10,11 @@ const Message= sequelize.define('message',{
     msg:{
         type: Sequelize.STRING,
         allowNull: false
+    },
+    type : {
+        type : Sequelize.STRING,
+        allowNull : false,
+        defaultValue : "text"
     }
 })
 
