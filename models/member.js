@@ -1,4 +1,4 @@
-const sequelize = require('../util/db')
+const sequelize = require('../utils/db')
 const Sequelize = require('sequelize')
 const Member = sequelize.define('member' , {
     id : {

@@ -25,7 +25,7 @@ async function checkUser(e){
     
     console.log("login",login);
     if(login.data.success===true){
-        window.location="chat.html"
+        window.location="chats/chat.html"
         // socket.emit("NewUserJoined")
         console.log("login",login);
         localStorage.setItem("token",login.data.token);

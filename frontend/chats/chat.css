@@ -8,11 +8,11 @@
     flex-direction : row;
 }
 
-#my_groups{
+#myGroups{
     min-width: 22vw;
   max-height: 83vh;
 }
-#group_messages{
+#groupMessages{
     min-width: 74vw;
     max-width: 75vw;
     min-height: 60vh;
@@ -20,7 +20,7 @@
     overflow-y:scroll;
 }
 
-.chat_body{
+.chatBody{
     background-color: rgb(210, 183, 242);
 }
 #all-joinee{
@@ -46,14 +46,14 @@ ul{
     font-size:20px;
     margin-left: 40%;
 }
-#make_group{
+#makeGroup{
     margin-left: 526px;
   font-size: initial;
   font-style: oblique;
   padding: 3px
 
 }
-#show_group{
+#showGroup{
     /* margin-left: 526px; */
     font-size: initial;
     font-style: oblique;
@@ -66,14 +66,14 @@ ul{
   margin-bottom: 8px;
   border-radius: 30%;
 }
-#send_chat{
+#sendChat{
     height:20px;
     width: 50px;
     border: 1px solid transparent;
     border-radius:5px;
     margin-left: 17px;
 }
-#my_groups{
+#myGroups{
     margin-left: 20px;
     font-size: 18px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -92,7 +92,7 @@ h4{
     margin-bottom: 17px;
     
 }
-.user_of_grp span {
+.userOfGroup span {
     margin: 0 10px;
     font-size: small;
     color: rgb(233, 233, 240);
@@ -104,7 +104,7 @@ h4{
 
 }
 
-#group_members{
+#groupMembers{
     margin-left: 44%;
     /* position: relative; */
     /* top: -480px; */
@@ -169,12 +169,12 @@ h4{
   font-weight: 800;
   font-size: large;
 }
-#groups_h3{
+#groupsH3{
     margin-left: 20px;
     padding: 10px;
 }
 
-#add-user{
+#addUser{
     /* display: flex; */
     left: 178px;
     position: relative;
@@ -183,7 +183,7 @@ h4{
     /* color: rgb(19, 50, 17); */
     height:22px;
 }
-#other_users{
+#otherUsers{
   margin-left: 54%;
   /* position: absolute; */
   top: -327px;
@@ -191,14 +191,14 @@ h4{
   /* margin-top: -14%; */
   position: relative;
 }
-#group-user{
+#groupUser{
     position: relative;
   left: 181px;
   top: -27px;
   height: 21px;
 }
 
-#user-welcome{
+#userWelcome{
     position: relative;
   left: 22px;
   top: 14px;
@@ -278,13 +278,13 @@ h4{
     position: absolute;
     margin-left: 109px;
   }
-  #file-send{
+  #fileSend{
     position: absolute;
   margin-left: 19%;
   height: 19px;
   width: 48px;
   }
-  .all_group{
+  .allGroup{
     margin-right: 45%;
   position: relative;
   left: 48%;

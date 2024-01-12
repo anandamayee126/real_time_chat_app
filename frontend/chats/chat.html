@@ -6,22 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>chat App</title>
     <link rel="stylesheet" href="chat.css">
-
-
 </head>
 
 <div>
-    <h5 id="user-welcome"></h5>
-
-
+    <h5 id="userWelcome"></h5>
 </div>
 
-<body class="chat_body">
-    <nav class="chat_nav">
+<body class="chatBody">
+    <nav class="chatNav">
         <ul>CHAT APP
-            <button type="submit" class="group" id="make_group">Make a Group</button>
+            <button type="submit" class="group" id="makeGroup">Make a Group</button>
             <!-- <button type="submit" class="group" id="chat_group">Chat in a Group</button> -->
-            <button type="submit" class="group" id="show_group">Show All the Groups</button>
+            <button type="submit" class="group" id="showGroup">Show All the Groups</button>
         </ul>
     </nav>
 
@@ -29,32 +25,32 @@
         <div id="joined">
         </div>
     </div> -->
-    <div id="create_group" class="hide">
-        <form id="create_group_form">
-            Group Name: <input type="text" id="group_name" name="group_name">
+    <div id="createGroup" class="hide">
+        <form id="createGroupForm">
+            Group Name: <input type="text" id="groupName" name="groupName">
             <input type="submit" value="Create Group">
         </form>
-        <div class="all-joinee hide" id="all-joinee"></div>
+        <!-- <div class="allJoinee hide" id="allJoinee"></div> -->
     </div>
     <div class="container">
-        <div id="my_groups">
+        <div id="myGroups">
             <!-- <div>demo</div> -->
         </div>
 
 
         <!-- <div i="group_messages"></div> -->
         <div class="groups">
-            <h3 class="hide" id="groups_h3"></h3>
-            <button id="add-user" class="hide">Add User</button>
+            <h3 class="hide" id="groupsH3"></h3>
+            <button id="addUser" class="hide">Add User</button>
             <button id="close" class="hide">X</button>
-            <button id="group-user" class="hide">Group Members</button>
-            <div id="group_members" class="hide"></div>
-            <div id="group_messages">
+            <button id="groupUser" class="hide">Group Members</button>
+            <div id="groupMembers" class="hide"></div>
+            <div id="groupMessages">
                 <!-- <div>testing</div> -->
             </div>
-            <div id="all_groups" class="hide"></div>
-            <div id="group_users" class="hide"></div>
-            <div id="other_users" class="hide"></div>
+            <div id="allGroups" class="hide"></div>
+            <div id="groupUsers" class="hide"></div>
+            <div id="otherUsers" class="hide"></div>
             <!-- <form id="input-text-message"> -->
             <!-- <input type="text" placeholder="type" class="chat" id="chat" name="chat">
             <input type="submit" value="send" id="send_chat">
@@ -74,14 +70,14 @@
                 <input type="checkbox" id="toggleInput">
                 <span class="slider round"></span>
             </label>
-            <form id="input-text-message" >
+            <form id="inputTextMessage" >
                 <input type="text" name="message" id="chat" placeholder="Type your message here" required
                     oninvalid="this.setCustomValidity('Enter message')" oninput="setCustomValidity('')">
-                <input type="submit" value="send" id="send_chat">
+                <input type="submit" value="send" id="sendChat">
             </form>
             <form id="files" class="hide" enctype="multipart/form-data">
                 <input type="file" name="file" id="file" required>
-                <button type="submit" id="file-send">send</button>
+                <button type="submit" id="fileSend">send</button>
             </form>
         </div>
     </div>

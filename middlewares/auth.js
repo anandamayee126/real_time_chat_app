@@ -1,13 +1,13 @@
 const jwt= require('jsonwebtoken');
 const User= require('../models/user');
-const dot_env= require('dotenv');
-dot_env.config();
+const dotEnv= require('dotenv');
+dotEnv.config();
 
 const authenticate= ((req,res,next) => {
     try{
         const token= req.header('Authorization');
         console.log("token",token);
-        const user= jwt.verify(token,process.env.SECRETKEY) ;
+        const user= jwt.verify(token,process.env.SECRET_KEY) ;
         User.findByPk(user.userId).then((user) => {
             console.log(JSON.stringify(user));
             req.user = user;

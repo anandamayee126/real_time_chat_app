@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../util/db');
+const sequelize = require('../utils/db');
 const ArchievedMessage= sequelize.define('archivedmessaage',{
     id:{
         type: Sequelize.INTEGER,

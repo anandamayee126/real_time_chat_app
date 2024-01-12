@@ -5,11 +5,11 @@ const User = require('./models/user');
 const Message = require('./models/message');
 const ArchievedMessage= require('./models/archievedChats');
 const router = require('./routes/router');
-const Sequelize= require('./util/db');
+const Sequelize= require('./utils/db');
 const Group = require('./models/group');
 const Member = require('./models/member');
-const message_router= require('./routes/message_route');
-const group_router= require('./routes/group_route');
+const messageRouter= require('./routes/messageRoute');
+const groupRouter= require('./routes/groupRoute');
 const cron= require('node-cron');
 const {Op}= require('sequelize');
 
@@ -36,8 +36,8 @@ app.use(express.json());
 //     req.body.token=req.params.token;
 //     next()
 //   })
-app.use('/message',message_router);
-app.use('/group',group_router);
+app.use('/message',messageRouter);
+app.use('/group',groupRouter);
 app.use('/user',router);
 
       // const curdate=new Date(); 

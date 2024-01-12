@@ -9,55 +9,55 @@
 // var socket = io.connect('http://localhost:3000', options);
 // let room=null;
 
-const messages = document.getElementById('group_messages')
+const messages = document.getElementById('groupMessages')
 let group = null;
 let userId = null;
-var curr_group = null
+var currentGroup = null
 
 document.addEventListener('DOMContentLoaded', getData);
 async function getData(e) {
     e.preventDefault();
-    const logged_user = await axios.get('http://localhost:3000/user/showId', {
+    const loggedUser = await axios.get('http://localhost:3000/user/showId', {
         headers: {
             'Authorization': localStorage.getItem('token'),
             "Access-Control-Allow-Origin": "*"
         }
     });
-    const user_welcome = document.getElementById('user-welcome');
-    console.log("abcdfr", logged_user);
-    user_welcome.textContent = `Hi ${logged_user.data.user.name} !`
+    const userWelcome = document.getElementById('userWelcome');
+    console.log("abcdfr", loggedUser);
+    userWelcome.textContent = `Hi ${loggedUser.data.user.name} !`
     renderGroup();
 }
 
 async function renderGroup() {
-    const groups = await axios.get("http://localhost:3000/group/get-groups", {
+    const groups = await axios.get("http://localhost:3000/group/getGroups", {
         headers: {
             'Authorization': localStorage.getItem('token')
         }
     });
     console.log("groups are: ", groups);
-    const my_groups = document.getElementById('my_groups');
-    my_groups.classList.remove("hide");
+    const myGroups = document.getElementById('myGroups');
+    myGroups.classList.remove("hide");
     groups.data.groups.forEach((grp) => {
 
-        const h_name = document.createElement('h4');
-        h_name.classList.add = "render_group";
-        h_name.textContent = grp.name;
-        const chat_btn = document.createElement('button');
-        chat_btn.textContent = "chat";
-        chat_btn.classList.add = "chat_btn";
-        h_name.appendChild(chat_btn);
-        my_groups.appendChild(h_name);
+        const hName = document.createElement('h4');
+        hName.classList.add = "renderGroup";
+        hName.textContent = grp.name;
+        const chatBtn = document.createElement('button');
+        chatBtn.textContent = "chat";
+        chatBtn.classList.add = "chatBtn";
+        hName.appendChild(chatBtn);
+        myGroups.appendChild(hName);
 
-        chat_btn.onclick = async () => {
-            console.log("current_group_id", grp.id);
-            curr_group = grp
-            const curr_grp = await axios.post('http://localhost:3000/group/curr_grp', { groupId: grp.id }, {
+        chatBtn.onclick = async () => {
+            console.log("currentGroup Id", grp.id);
+            currentGroup = grp
+            const currentGroupId = await axios.post('http://localhost:3000/group/currentGroup', { groupId: grp.id }, {
                 headers: {
                     'Authorization': localStorage.getItem('token')
                 }
             });
-            console.log("current Group", curr_grp.data.Current_Group.id);
+            console.log("current Group", currentGroupId.data.currentGroup.id);
             // room=curr_grp.data.Current_Group.id;
             // socket.emit('join-room' , room , ()=>
             // {
@@ -70,36 +70,37 @@ async function renderGroup() {
                 }
             })
             if (ifAdmin.data.success) {
-                const add_user = document.getElementById('add-user');
-                add_user.classList.remove("hide");
+                const addUser = document.getElementById('addUser');
+                addUser.classList.remove("hide");
                 // const close= document.getElementById('close');
                 // close.classList.remove("hide");
                 // close.onclick=() =>{
                 //     // add_user.classList.add("hide");
 
                 // }
-                add_user.onclick = async () => {
-                    const getUsers = await axios.post('http://localhost:3000/group/get-users', { groupId: curr_grp.data.Current_Group.id }, {
+                addUser.onclick = async () => {
+                    const getUsers = await axios.post('http://localhost:3000/group/getUsers', {groupId: currentGroupId.data.currentGroup.id}, {
                         headers: {
                             'Authorization': localStorage.getItem('token')
                         }
                     })
                     console.log("Remaining Users are: ", getUsers);
-                    const other_users = document.getElementById('other_users');
-                    other_users.classList.remove("hide");
+                    const otherUsers = document.getElementById('otherUsers');
+                    otherUsers.classList.remove("hide");
 
-                    getUsers.data.remaining_users.forEach((user) => {
-                        const p_name = document.createElement('p');
-                        p_name.textContent = user.name + "   ";
-                        const add_user = document.createElement('button');
-                        add_user.textContent = "Add";
-                        add_user.onclick = async () => {
+                    getUsers.data.remainingUsers.forEach((user) => {
+                        const pName = document.createElement('p');
+                        pName.textContent = user.name + "   ";
+                        const addUser = document.createElement('button');
+                        addUser.textContent = "Add";
+                        addUser.onclick = async () => {
+                            console.log("current",currentGroup);
                             const obj = {
-                                groupId: curr_grp.data.Current_Group.id,
+                                groupId: currentGroup.id,
                                 userId: user.id
                             }
                             console.log("obj", obj);
-                            const add = await axios.post('http://localhost:3000/group/add_user', obj, {
+                            const add = await axios.post('http://localhost:3000/group/addUser', obj, {
                                 headers: {
                                     'Authorization': localStorage.getItem('token')
                                 }
@@ -108,25 +109,25 @@ async function renderGroup() {
                                 window.location = "chat.html";
                             }
                         }
-                        p_name.appendChild(add_user);
-                        other_users.appendChild(p_name);
+                        pName.appendChild(addUser);
+                        otherUsers.appendChild(pName);
                     })
                 }
             }
             console.log("ifdmin", ifAdmin);
-            const group_name = document.getElementById("groups_h3");
-            group_name.classList.remove("hide");
-            group_name.textContent = "Group " + grp.name;
-            const group_member = document.getElementById('group-user');
-            group_member.classList.remove('hide');
-            group_member.onclick = () => {
+            const groupName = document.getElementById("groupsH3");
+            groupName.classList.remove("hide");
+            groupName.textContent = "Group " + grp.name;
+            const groupMember = document.getElementById('groupUser');
+            groupMember.classList.remove('hide');
+            groupMember.onclick = () => {
                 renderUser(grp.id, userId)
             }
             renderMessages(grp.id);
             //for the new msg
             document.getElementById('toggleInput').addEventListener('click', (e) => {
                 console.log("checked:");
-                const message = document.getElementById('input-text-message');
+                const message = document.getElementById('inputTextMessage');
                 // console.log(document.querySelector('#messages'))
                 const file = document.getElementById('files');
                 if (e.target.checked) {
@@ -138,9 +139,9 @@ async function renderGroup() {
 
                 }
             })
-            const input_text = document.getElementById("input-text-message");
+            const inputMessage = document.getElementById("inputTextMessage");
             // input_text.classList.remove("hide");
-            input_text.addEventListener('submit', addMessage);
+            inputMessage.addEventListener('submit', addMessage);
             async function addMessage(e) {     // your sendMessage === My addMessage 
                 e.preventDefault();
                 const msg = e.target.chat.value;
@@ -149,7 +150,7 @@ async function renderGroup() {
                     groupId: grp.id
                 }
                 group = grp;
-                const addMessage = await axios.post('http://localhost:3000/message/add-message', obj, {
+                const addMessage = await axios.post('http://localhost:3000/message/addMessage', obj, {
                     headers: {
                         'Authorization': localStorage.getItem('token')
                     }
@@ -157,12 +158,12 @@ async function renderGroup() {
                 console.log("Messages added: ", addMessage);
 
 
-                const group_message = document.getElementById("group_messages");
-                group_message.classList.remove('hide');
+                const groupMessage = document.getElementById("groupMessages");
+                groupMessage.classList.remove('hide');
                 const div = document.createElement('div')
                 div.className = 'u-message'
                 div.textContent = "You: " + addMessage.data.msg
-                group_message.appendChild(div)
+                groupMessage.appendChild(div)
                 e.target.chat.value = ''
                 // const newMsg= addMessage.data.msg
                 // console.log("room",room)                //working
@@ -184,7 +185,7 @@ document.getElementById('files').addEventListener('submit', async (e) => {
         // console.log(e.target.file.files) 
         const formData = new FormData(document.getElementById('files'))
         // alert('before')
-        const res = await axios.post(`http://localhost:3000/message/uploadFile/${curr_group.id}`, formData, {
+        const res = await axios.post(`http://localhost:3000/message/uploadFile/${currentGroup.id}`, formData, {
             headers: {
                 'Authorization': localStorage.getItem('token')
             }
@@ -203,7 +204,7 @@ document.getElementById('files').addEventListener('submit', async (e) => {
         console.log(e)
     }
 })
-async function renderMessages(group_id) {
+async function renderMessages(groupId) {
     try {
 
         // let final_messages = JSON.parse(localStorage.getItem(`message-${group_id}`) ) || []
@@ -214,12 +215,12 @@ async function renderMessages(group_id) {
         //     mId = final_messages[final_messages.length -1].id
         // if(final_users.length>0)
         //      uId = final_users[final_users.length -1].id
-        const res = await axios.get(`http://localhost:3000/message/get-messages/${group_id}`, {
+        const res = await axios.get(`http://localhost:3000/message/getMessages/${groupId}`, {
             headers: {
                 'Authorization': localStorage.getItem('token')
             }
         })
-        const res2 = await axios.get(`http://localhost:3000/group/all-users/${group_id}`, {
+        const res2 = await axios.get(`http://localhost:3000/group/allUsers/${groupId}`, {
             headers: {
                 'Authorization': localStorage.getItem('token')
             }
@@ -254,7 +255,7 @@ async function renderMessages(group_id) {
     }
 }
 function showFiles(data, users) {
-    const id = curr_group.member.id
+    const id = currentGroup.member.id
     console.log(id)
     console.log(data)
     // const users = localStorage.getItem(`user-${curr_group.id}`)
@@ -292,21 +293,21 @@ function showFiles(data, users) {
     messages.appendChild(div)
 }
 
-async function renderUser(group_id) {
-    const users = await axios.get(`http://localhost:3000/group/all-users/${group_id}`, {
+async function renderUser(groupId) {
+    const users = await axios.get(`http://localhost:3000/group/allUsers/${groupId}`, {
         headers: {
             'Authorization': localStorage.getItem('token')
         }
     });
     console.log("users are: ", users);
-    const group_members = document.getElementById("group_members");
-    group_members.classList.remove("hide");
+    const groupMembers = document.getElementById("groupMembers");
+    groupMembers.classList.remove("hide");
 
     users.data.forEach(async (user) => {
         console.log("user is", user);
         const p = document.createElement('p')
         p.textContent = user.name + "   "
-        p.className = 'user_of_grp'
+        p.className = 'userOfGroup'
         if (user.member.admin) {
             const span = document.createElement('span')
             span.textContent = 'admin'
@@ -320,24 +321,24 @@ async function renderUser(group_id) {
                 }
             })
             if (ifAdmin.data.success) {
-                const remove_button = document.createElement('button');
-                remove_button.textContent = "X";
-                remove_button.classList.add = "btn";
-                remove_button.onclick = async () => {
-                    const remove_user = await axios.post('http://localhost:3000/group/remove_user', { user_id: user.id, group_id: group_id }, {
+                const removeButton = document.createElement('button');
+                removeButton.textContent = "X";
+                removeButton.classList.add = "btn";
+                removeButton.onclick = async () => {
+                    const removeUser = await axios.post('http://localhost:3000/group/removeUser', { userId: user.id, groupId: groupId }, {
                         headers: {
                             'Authorization': localStorage.getItem('token')
                         }
                     })
-                    console.log("remove_user", remove_user);
-                    if (remove_user.data.success) {
-                        group_members.removeChild(p);
+                    console.log("remove user", removeUser);
+                    if (removeUser.data.success) {
+                        groupMembers.removeChild(p);
                     }
                 }
-                p.appendChild(remove_button);
+                p.appendChild(removeButton);
             }
         }
-        group_members.appendChild(p)
+        groupMembers.appendChild(p)
     })
 }
 
@@ -366,31 +367,32 @@ function showMessage(data, id, users) {
     messages.appendChild(div)
 }
 const token = localStorage.getItem("token");
-var group_id = null;
+var groupId = null;
 
-const make_group = document.getElementById('make_group');
-make_group.addEventListener('click', createGroup);
+const makeGroup = document.getElementById('makeGroup');
+makeGroup.addEventListener('click', createGroup);
 
-const show_group = document.getElementById('show_group');
-show_group.addEventListener('click', showAllGroup);
+const showGroup = document.getElementById('showGroup');
+showGroup.addEventListener('click', showAllGroup);
 
 function createGroup(e) {
     e.preventDefault();
-    const create_group = document.getElementById('create_group');
-    create_group.classList.remove("hide");
+    const createGroup = document.getElementById('createGroup');
+    createGroup.classList.remove("hide");
+    console.log("done");
 }
-const form_create_group = document.getElementById('create_group_form');
-form_create_group.addEventListener('submit', create_Group);
-async function create_Group(e) {
+const groupForm = document.getElementById('createGroupForm');
+groupForm.addEventListener('submit', createGroupForm);
+async function createGroupForm(e) {
     e.preventDefault();
-    const name = e.target.group_name.value;
+    const name = e.target.groupName.value;
     const create = await axios.post('http://localhost:3000/group/create', { name }, {
         headers: {
             'Authorization': localStorage.getItem('token')
         }
     })
 
-    group_id = create.data.group.id;
+    groupId = create.data.group.id;
     console.log("group created", create);
     window.location = "chat.html"
 }
@@ -431,37 +433,37 @@ async function create_Group(e) {
 
 async function showAllGroup(e) {
     e.preventDefault();
-    const all_groups = await axios.get(`http://localhost:3000/group/showAllGroup`, {
+    const allGroups = await axios.get(`http://localhost:3000/group/showAllGroup`, {
         headers: {
             'Authorization': localStorage.getItem('token')
         }
     })
-    console.log("All groups are: ", all_groups);
+    console.log("All groups are: ", allGroups);
 
-    const groups = document.getElementById('all_groups');
+    const groups = document.getElementById('allGroups');
     groups.classList.remove('hide');
     const form = document.createElement('form');
-    form.classList.add('all_group');
-    all_groups.data.groups.forEach(group => {
-        const p_name = document.createElement('p');
-        p_name.textContent = group.name + "   ";
-        const add_button = document.createElement('button');
-        add_button.textContent = "Join Group";
-        add_button.onclick = async (e) => {
+    form.classList.add('allGroup');
+    allGroups.data.groups.forEach(group => {
+        const pName = document.createElement('p');
+        pName.textContent = group.name + "   ";
+        const addButton = document.createElement('button');
+        addButton.textContent = "Join Group";
+        addButton.onclick = async (e) => {
             e.preventDefault();
             // window.location="chat.html";
             console.log(group.id);
-            const add_grp = await axios.post('http://localhost:3000/group/join_group', { group_id: group.id }, {
+            const addGrp = await axios.post('http://localhost:3000/group/joinGroup', { group_id: group.id }, {
                 headers: {
                     'Authorization': localStorage.getItem('token')
                 }
             })
 
-            console.log(add_grp);
+            console.log(addGrp);
 
         }
-        p_name.appendChild(add_button);
-        form.appendChild(p_name);
+        pName.appendChild(addButton);
+        form.appendChild(pName);
         groups.appendChild(form);
     })
 }

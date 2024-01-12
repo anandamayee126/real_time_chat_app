@@ -1,16 +1,16 @@
 const express=require('express');
-const msg_route=express.Router();
+const messageRoute=express.Router();
 const Message = require('../models/message')
 const User = require('../models/user');
 const Group = require('../models/group');
 const Member = require('../models/member');
-const middleware= require('../middleware/auth');
+const middleware= require('../middlewares/auth');
 const {uploadToS3} = require('../services/s3Services')
 const multer = require('multer')
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-msg_route.post('/add-message',middleware,async (req, res) => {
+messageRoute.post('/addMessage',middleware,async (req, res) => {
     try {
         const groupId = req.body.groupId;
         const message = req.body.message;
@@ -25,7 +25,7 @@ msg_route.post('/add-message',middleware,async (req, res) => {
     }
 })
 
-msg_route.get('/get-messages/:groupId',middleware,async(req,res)=>{
+messageRoute.get('/getMessages/:groupId',middleware,async(req,res)=>{
     try {
         const id = req.params.groupId;
         const group = await Group.findByPk(id) // req.user.getGroups()
@@ -44,7 +44,7 @@ msg_route.get('/get-messages/:groupId',middleware,async(req,res)=>{
     }
 })
 
-msg_route.post('/uploadFile/:groupId', upload.single('file'),middleware,async(req,res) => {
+messageRoute.post('/uploadFile/:groupId', upload.single('file'),middleware,async(req,res) => {
    
     try{
         const fileName =new Date() + req.file.originalname
@@ -65,4 +65,4 @@ msg_route.post('/uploadFile/:groupId', upload.single('file'),middleware,async(re
 
     }
 })
-module.exports= msg_route;
+module.exports= messageRoute;

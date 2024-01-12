@@ -1,4 +1,4 @@
-const form= document.getElementById('my-form')
+const form= document.getElementById('myForm')
 form.addEventListener('submit', addUser);
 
 // import axios from 'axios';

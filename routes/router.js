@@ -6,9 +6,9 @@ const Member= require('../models/member');
 const Group= require('../models/group');
 const jwt= require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const dot_env= require('dotenv');
-const middleware = require('../middleware/auth');
-dot_env.config();
+const dotEnv= require('dotenv');
+const middleware = require('../middlewares/auth');
+dotEnv.config();
 const {Op}= require('sequelize');
 
 var userId=0;
@@ -16,7 +16,7 @@ var userName=null;
 var token=null;
 function tokenCreation(userId)
 {
-    return jwt.sign({userId:userId},process.env.SECRETKEY);    ////////////////
+    return jwt.sign({userId:userId},process.env.SECRET_KEY);    ////////////////
 }
 
 router.post('/signup',async(req,res) => {
@@ -54,6 +54,7 @@ router.post('/login',async(req,res)=>{
         else{
             console.log(exist_email);
             userId=exist_email.id;
+            console.log("userId: ",userId);
             userName=exist_email.name;
             console.log("existEmail",userName);
             token= tokenCreation(userId);

@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../util/db');
+const sequelize = require('../utils/db');
 const Message= sequelize.define('message',{
     id:{
         type: Sequelize.INTEGER,
